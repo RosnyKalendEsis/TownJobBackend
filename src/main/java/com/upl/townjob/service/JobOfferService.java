@@ -1,6 +1,7 @@
 package com.upl.townjob.service;
 
 import com.upl.townjob.model.Candidacy;
+import com.upl.townjob.model.Company;
 import com.upl.townjob.model.JobOffer;
 import com.upl.townjob.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,7 @@ public class JobOfferService {
         return jobOfferRepository.findAll();
     }
 
-    public List<Candidacy>retrieveJobOfferCandidacies(UUID id){
-        if(jobOfferRepository.existsById(id)){
-            return jobOfferRepository.findById(id).get().getCandidacies();
-        }
-        return  null;
+    public List<JobOffer> retrieveAllJobOfferByCompany(Company company){
+        return jobOfferRepository.findAllByCompany(company);
     }
 }

@@ -28,32 +28,13 @@ public class CompanyService {
             existCompany.setMail(company.getMail());
             existCompany.setName(company.getName());
             existCompany.setPassword(company.getPassword());
-            existCompany.setJobOffers(company.getJobOffers());
             return companyRepository.save(existCompany);
         }
         return null;
     }
 
-    public List<JobOffer>retrieveCompanyJobOffers(UUID id){
-        if(companyRepository.existsById(id)){
-            Company company= companyRepository.findById(id).get();
-            return company.getJobOffers();
-        }
-        return null;
-    }
 
     public Company loginCompany(String mail, String password){
         return companyRepository.findCompanyByMailAndPassword(mail, password).orElse(null);
-    }
-
-    public Company addJobOfferToCompany(UUID id, JobOffer jobOffer){
-        if(companyRepository.existsById(id)){
-            Company company = companyRepository.findById(id).get();
-            List<JobOffer> jobOffers = company.getJobOffers();
-            jobOffers.add(jobOffer);
-            company.setJobOffers(jobOffers);
-            return  companyRepository.save(company);
-        }
-        return null;
     }
 }

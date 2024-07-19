@@ -25,7 +25,6 @@ public class UserService {
     public User updateUser(UUID id, User user){
        if(userRepository.existsById(id)){
            User existUser = userRepository.findById(id).get();
-           existUser.setCandidacies(user.getCandidacies());
            existUser.setMail(user.getMail());
            existUser.setName(user.getName());
            existUser.setPassword(user.getPassword());
@@ -36,31 +35,5 @@ public class UserService {
 
     public User loginUser(String mail, String password){
         return  userRepository.findUserByMailAndPassword(mail, password).orElse(null);
-    }
-
-    public List<Candidacy> retrieveUserCandidacies(UUID id){
-       User user = userRepository.findById(id).orElse(null);
-       if(user != null){
-           return user.getCandidacies();
-       }
-       return null;
-    }
-
-    public List<JobOffer> retrieveUserSavedJobOffers(UUID id){
-        if(userRepository.existsById(id)){
-            return userRepository.findById(id).get().getSavedJobOffers();
-        }
-        return  null;
-    }
-
-    public User saveJobOffer(UUID id,JobOffer jobOffer){
-        if(userRepository.existsById(id)){
-            User user = userRepository.findById(id).get();
-            List<JobOffer> jobOffers= user.getSavedJobOffers();
-            jobOffers.add(jobOffer);
-            user.setSavedJobOffers(jobOffers);
-            return userRepository.save(user);
-        }
-        return  null;
     }
 }

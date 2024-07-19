@@ -29,8 +29,6 @@ public class UserController {
         user.setMail(record.mail());
         user.setUsername(record.username());
         user.setPassword(record.password());
-        user.setCandidacies(new ArrayList<>());
-        user.setSavedJobOffers(new ArrayList<>());
         User createdUser = userService.createUser(user);
         return ResponseEntity.ok(createdUser);
     }
@@ -51,27 +49,5 @@ public class UserController {
     public ResponseEntity<User> loginUser(@RequestParam String mail, @RequestParam String password) {
         User user = userService.loginUser(mail, password);
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.status(401).build();
-    }
-
-    @GetMapping("/{id}/candidacies")
-    public ResponseEntity<List<Candidacy>> retrieveUserCandidacies(@PathVariable UUID id) {
-        List<Candidacy> candidacies = userService.retrieveUserCandidacies(id);
-        return candidacies != null ? ResponseEntity.ok(candidacies) : ResponseEntity.notFound().build();
-    }
-
-    @GetMapping("/{id}/savedJobOffers")
-    public ResponseEntity<List<JobOffer>> retrieveUserSavedJobOffers(@PathVariable UUID id) {
-        List<JobOffer> jobOffers = userService.retrieveUserSavedJobOffers(id);
-        return jobOffers != null ? ResponseEntity.ok(jobOffers) : ResponseEntity.notFound().build();
-    }
-
-    @PostMapping("/savedJobOffers")
-    public ResponseEntity<User> saveJobOffer(@RequestParam UUID user, @RequestParam UUID jobOffer) {
-        JobOffer jobOffer1 = jobOfferService.retrieveJobOffer(jobOffer);
-        if(jobOffer1 != null){
-            User existUser = userService.saveJobOffer(user, jobOffer1);
-            return existUser != null ? ResponseEntity.ok(existUser) : ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.notFound().build();
     }
 }

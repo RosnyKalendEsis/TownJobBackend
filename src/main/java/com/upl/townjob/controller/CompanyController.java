@@ -35,21 +35,9 @@ public class CompanyController {
         return updatedCompany != null ? ResponseEntity.ok(updatedCompany) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{id}/jobOffers")
-    public ResponseEntity<List<JobOffer>> retrieveCompanyJobOffers(@PathVariable UUID id) {
-        List<JobOffer> jobOffers = companyService.retrieveCompanyJobOffers(id);
-        return jobOffers != null ? ResponseEntity.ok(jobOffers) : ResponseEntity.notFound().build();
-    }
-
     @PostMapping("/login")
     public ResponseEntity<Company> loginCompany(@RequestParam String mail, @RequestParam String password) {
         Company company = companyService.loginCompany(mail, password);
         return company != null ? ResponseEntity.ok(company) : ResponseEntity.status(401).build();
-    }
-
-    @PostMapping("/{id}/jobOffers")
-    public ResponseEntity<Company> addJobOfferToCompany(@PathVariable UUID id, @RequestBody JobOffer jobOffer) {
-        Company company = companyService.addJobOfferToCompany(id, jobOffer);
-        return company != null ? ResponseEntity.ok(company) : ResponseEntity.notFound().build();
     }
 }

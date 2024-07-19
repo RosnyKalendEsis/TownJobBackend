@@ -1,7 +1,9 @@
 package com.upl.townjob.controller;
 
 import com.upl.townjob.model.Candidacy;
+import com.upl.townjob.model.Company;
 import com.upl.townjob.model.JobOffer;
+import com.upl.townjob.service.CompanyService;
 import com.upl.townjob.service.JobOfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.UUID;
 public class JobOfferController {
 
     private final JobOfferService jobOfferService;
+    private final CompanyService companyService;
 
     @PostMapping
     public ResponseEntity<JobOffer> createJobOffer(@RequestBody JobOffer jobOffer) {
@@ -35,9 +38,9 @@ public class JobOfferController {
         return ResponseEntity.ok(jobOffers);
     }
 
-    @GetMapping("/{id}/candidacies")
-    public ResponseEntity<List<Candidacy>> retrieveJobOfferCandidacies(@PathVariable UUID id) {
-        List<Candidacy> candidacies = jobOfferService.retrieveJobOfferCandidacies(id);
-        return candidacies != null ? ResponseEntity.ok(candidacies) : ResponseEntity.notFound().build();
+    @GetMapping("/{id}/company")
+    public ResponseEntity<List<JobOffer>> retrieveJobOfferCompany(@PathVariable UUID id) {
+        Company company = companyService.retrieveCompany(id);
+        return company != null ? ResponseEntity.ok(jobOfferService.retrieveAllJobOfferByCompany(company)) : ResponseEntity.notFound().build();
     }
 }

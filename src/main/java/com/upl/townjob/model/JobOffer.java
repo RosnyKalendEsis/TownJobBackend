@@ -1,16 +1,12 @@
 package com.upl.townjob.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,12 +16,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class JobOffer implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String title;
     private String description;
-    @OneToOne
+    @ManyToOne
     private Company company;
-    @OneToMany
-    private List<Candidacy> candidacies;
 
 }

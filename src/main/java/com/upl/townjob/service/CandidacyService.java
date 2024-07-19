@@ -1,11 +1,14 @@
 package com.upl.townjob.service;
 
 import com.upl.townjob.model.Candidacy;
+import com.upl.townjob.model.JobOffer;
 import com.upl.townjob.model.Status;
+import com.upl.townjob.model.User;
 import com.upl.townjob.repository.CandidacyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -51,5 +54,17 @@ public class CandidacyService {
             return candidacyRepository.save(candidacy);
         }
         return null;
+    }
+
+    public List<Candidacy>retrieveAllCandidaciesByUser(User user){
+        return candidacyRepository.findAllByUser(user);
+    }
+
+    public List<Candidacy>retrieveAllCandidaciesByJobOffer(JobOffer jobOffer){
+        return candidacyRepository.findAllByJobOffer(jobOffer);
+    }
+
+    public List<Candidacy>retrieveAllCandidaciesByJobOfferCompany(UUID id){
+        return candidacyRepository.findAllByJobOffer_Company_Id(id);
     }
 }
