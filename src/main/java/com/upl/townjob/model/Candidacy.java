@@ -1,5 +1,6 @@
 package com.upl.townjob.model;
 
+import com.upl.townjob.record.CandidacyDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,16 @@ public class Candidacy implements Serializable {
     private String motivation;
     @ManyToOne
     private User user;
+
+    @Column(columnDefinition = "LONGBLOB")
+    @Lob
+    private byte[] cv;
+
     @ManyToOne
     private JobOffer jobOffer;
     private Status status;
+
+    public CandidacyDto candidacyDto(){
+        return new CandidacyDto(id,name,mail,motivation,user,jobOffer,status);
+    }
 }

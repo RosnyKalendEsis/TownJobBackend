@@ -7,7 +7,9 @@ import com.upl.townjob.model.User;
 import com.upl.townjob.repository.CandidacyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +20,13 @@ public class CandidacyService {
 
     public Candidacy createCandidacy(Candidacy candidacy){
         return  candidacyRepository.save(candidacy);
+    }
+
+    public Candidacy saveCandidacy(Candidacy candidacy, MultipartFile cvFile) throws IOException {
+        if (cvFile != null && !cvFile.isEmpty()) {
+            candidacy.setCv(cvFile.getBytes());
+        }
+        return candidacyRepository.save(candidacy);
     }
 
     public Candidacy retrieveCandidacy(UUID id){
@@ -66,5 +75,9 @@ public class CandidacyService {
 
     public List<Candidacy>retrieveAllCandidaciesByJobOfferCompany(UUID id){
         return candidacyRepository.findAllByJobOffer_Company_Id(id);
+    }
+
+    public List<Candidacy>retrieveAllCandidacies(){
+        return candidacyRepository.findAll();
     }
 }
